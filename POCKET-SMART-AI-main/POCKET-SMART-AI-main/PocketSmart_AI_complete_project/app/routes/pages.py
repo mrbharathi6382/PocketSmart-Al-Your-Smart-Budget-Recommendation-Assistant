@@ -1,0 +1,22 @@
+from fastapi import APIRouter, Depends, Request
+from fastapi.templating import Jinja2Templates
+from ..dependencies import get_current_user
+router=APIRouter(); templates=Jinja2Templates(directory="app/templates")
+@router.get("/")
+def index(request:Request): return templates.TemplateResponse("index.html",{"request":request})
+@router.get("/login")
+def login_page(request:Request): return templates.TemplateResponse("login.html",{"request":request})
+@router.get("/register")
+def register_page(request:Request): return templates.TemplateResponse("register.html",{"request":request})
+@router.get("/dashboard")
+def dashboard(request:Request,user=Depends(get_current_user)): return templates.TemplateResponse("dashboard.html",{"request":request,"user":user})
+@router.get("/planner/home")
+def home(request:Request,user=Depends(get_current_user)): return templates.TemplateResponse("home_planner.html",{"request":request,"user":user})
+@router.get("/planner/party")
+def party(request:Request,user=Depends(get_current_user)): return templates.TemplateResponse("party_planner.html",{"request":request,"user":user})
+@router.get("/planner/jewelry")
+def jewelry(request:Request,user=Depends(get_current_user)): return templates.TemplateResponse("jewelry_planner.html",{"request":request,"user":user})
+@router.get("/history")
+def history_page(request:Request,user=Depends(get_current_user)): return templates.TemplateResponse("history.html",{"request":request,"user":user})
+@router.get("/recommendations/{recommendation_id}")
+def recommendations(request:Request,recommendation_id:int,user=Depends(get_current_user)): return templates.TemplateResponse("recommendations.html",{"request":request,"user":user,"recommendation_id":recommendation_id})
